@@ -13,6 +13,8 @@ export interface CampaignListOptions {
 }
 
 export function buildCampaignListQuery(options?: CampaignListOptions): string {
+  // metrics フィールドは除外（MCC配下アカウント向け・日付範囲指定が必要なため）
+  // パフォーマンス数値は google_ads_report_campaign ツールで取得する
   const fields = [
     "campaign.id",
     "campaign.name",
@@ -25,12 +27,6 @@ export function buildCampaignListQuery(options?: CampaignListOptions): string {
     "campaign.network_settings.target_google_search",
     "campaign.network_settings.target_search_network",
     "campaign.network_settings.target_content_network",
-    "metrics.impressions",
-    "metrics.clicks",
-    "metrics.cost_micros",
-    "metrics.conversions",
-    "metrics.ctr",
-    "metrics.average_cpc",
   ];
 
   let query = `SELECT ${fields.join(", ")} FROM campaign`;
