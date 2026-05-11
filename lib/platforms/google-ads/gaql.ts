@@ -48,6 +48,10 @@ export function buildCampaignListQuery(options?: CampaignListOptions): string {
     query += ` WHERE ${conditions.join(" AND ")}`;
   }
 
+  // metrics フィールドを含む場合は DURING 句が必須（Google Ads API仕様）
+  // 位置: WHERE の後・ORDER BY の前
+  query += " DURING LAST_30_DAYS";
+
   query += " ORDER BY campaign.name ASC";
 
   if (options?.limit) {
